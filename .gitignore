@@ -1,0 +1,13 @@
+VitaVolume
+CMakeCache.txt
+eboot.bin*
+cmake_install.cmake
+*.out
+*.vpk
+*.velf
+*param.sfo
+CMakeFiles/
+CMakeFiles/*
+Makefile
+.vs-code/*
+.vs-code
