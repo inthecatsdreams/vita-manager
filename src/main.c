@@ -87,6 +87,7 @@ void volumePage(){
   printf("ARROW UP: increase volume.\n");
   printf("ARROW DOWN: decrease volume.\n");
   printf("TRIANGLE: mute console\n");
+  printf("SQUARE: apply changes and reboot\n");
   printf("CIRCLE: go back to main menu\n");
   int currentVolume = getCurrentVolume();
   printf("Current volume %d", currentVolume);
@@ -105,6 +106,9 @@ void volumePage(){
 	case SCE_CTRL_TRIANGLE:
 	  muteConsole();
 	  break;
+  case SCE_CTRL_SQUARE:
+    scePowerRequestColdReset();
+    break;
 	default:
 	  break;
 	
