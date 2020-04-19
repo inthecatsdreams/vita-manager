@@ -1,4 +1,3 @@
-VitaVolume
 CMakeCache.txt
 eboot.bin*
 cmake_install.cmake
@@ -9,5 +8,5 @@ cmake_install.cmake
 CMakeFiles/
 CMakeFiles/*
 Makefile
-.vs-code/*
-.vs-code
+.vscode/*
+.vscode

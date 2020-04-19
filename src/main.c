@@ -43,6 +43,7 @@ void databasePage()
 {
   
   clearScreen(0);
+  sceKernelDelayThread(200000);
   printf("Press R trigger to rebuild database\n");
   printf("Press CIRCLE to go back to the main menu\n");
   while(1){
@@ -112,6 +113,7 @@ void volumePage(){
 }
 
 void powerPage(){
+  sceKernelDelayThread(200000);
   int batteryLifeTime = 0;
   //credits to the vitasdk samples for this one.
   clearScreen(0);
@@ -157,6 +159,9 @@ int main(){
 	    case SCE_CTRL_LTRIGGER:
 	      volumePage();
 	      break;
+      case SCE_CTRL_TRIANGLE:
+        powerPage();
+        break;
 	    default:
 	      break;
 	
