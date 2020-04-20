@@ -2,14 +2,10 @@
 #include <string.h>
 #include <stdio.h>
 #include <vitasdk.h>
-
 #include "ctrl.h"
 #include "debugScreen.h"
-
 #define printf psvDebugScreenPrintf
 #define clearScreen psvDebugScreenClear
-
-
 
 void increaseVolume(int vol)
 {
@@ -125,22 +121,22 @@ void powerPage(){
   printf("CIRCLE: go back to the main menu.\n");
   printf("RIGHT TRIGGER: reboot.\n");
   printf("External power: %s\n", scePowerIsPowerOnline()? "yes" : "no ");
-	printf("Low charge: %s\n", scePowerIsLowBattery()? "yes" : "no ");
-	printf("Charging: %s\n", scePowerIsBatteryCharging()? "yes" : "no ");
+  printf("Low charge: %s\n", scePowerIsLowBattery()? "yes" : "no ");
+  printf("Charging: %s\n", scePowerIsBatteryCharging()? "yes" : "no ");
   batteryLifeTime = scePowerGetBatteryLifeTime();
-	printf("Battery life time: (%02dh%02dm)\n", batteryLifeTime/60, batteryLifeTime-(batteryLifeTime/60*60));
+  printf("Battery life time: (%02dh%02dm)\n", batteryLifeTime/60, batteryLifeTime-(batteryLifeTime/60*60));
   while (1){
 
-  switch (get_key (0)){
+    switch (get_key (0)){
 	  
-	case SCE_CTRL_CIRCLE:
-	  main();
-	  break;
-	case SCE_CTRL_RTRIGGER:
-	  scePowerRequestColdReset();
-	  break;
-	default:
-	  break;
+	    case SCE_CTRL_CIRCLE:
+	      main();
+	      break;
+	    case SCE_CTRL_RTRIGGER:
+	      scePowerRequestColdReset();
+	      break;
+	    default:
+	      break;
 	
   }
 
