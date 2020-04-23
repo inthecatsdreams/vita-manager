@@ -5,7 +5,7 @@
             "includePath": [
                 "${workspaceFolder}/**",
                 "/usr/local/",
-                "/usr/local/vitasdk/arm-vita-eabi/include"
+                "/usr/local/share/vitasdk/arm-vita-eabi/include"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/gcc",
