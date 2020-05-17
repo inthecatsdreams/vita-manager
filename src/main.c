@@ -1,18 +1,61 @@
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <stdio.h>
-#include <vitasdk.h>
+
+#include <psp2/kernel/processmgr.h>
+#include <psp2/ctrl.h>
+#include <psp2/io/fcntl.h>
+#include <psp2/io/stat.h>
 #include "ctrl.h"
 #include "debugScreen.h"
 #define printf psvDebugScreenPrintf
 #define clearScreen psvDebugScreenClear
 
+int copyFile(const char *src_path, const char *dst_path)
+{
+    SceUID fd_to, fd_from;
+    char buf[16 * 1024];
+    ssize_t nread;
+    int saved_errno;
+    fd_from = sceIoOpen(src_path, SCE_O_RDONLY, 0777);
+    if (fd_from < 0)
+        return -1;
+
+    fd_to = sceIoOpen(dst_path, SCE_O_WRONLY | SCE_O_CREAT, 0777);
+    while (nread = sceIoRead(fd_from, buf, sizeof buf), nread > 0)
+    {
+        char *out_ptr = buf;
+        ssize_t nwritten;
+
+        do
+        {
+            nwritten = sceIoWrite(fd_to, out_ptr, nread);
+
+            if (nwritten >= 0)
+            {
+                nread -= nwritten;
+                out_ptr += nwritten;
+            }
+
+        } while (nread > 0);
+    }
+    if (nread == 0)
+    {
+        if (sceIoClose(fd_to) < 0)
+        {
+            fd_to = -1;
+            return 0;
+        }
+        sceIoClose(fd_from);
+
+        return 1;
+    }
+}
 void increaseVolume(int vol)
 {
     clearScreen();
     if (vol == 30)
     {
-        printf("You are alredy at the maxium. Nothing to do.");
         volumePage();
     }
     else
@@ -60,7 +103,8 @@ void databasePage()
             main();
             break;
         default:
-            printf("Invalid input");
+            printf("Invalid input\n");
+            sceKernelDelayThread(300000);
             main();
         }
     }
@@ -112,6 +156,8 @@ void volumePage()
             scePowerRequestColdReset();
             break;
         default:
+            printf("Invalid input\n");
+            sceKernelDelayThread(300000);
             break;
         }
     }
@@ -121,26 +167,41 @@ void taiHenPage()
 {
     clearScreen(0);
     sceKernelDelayThread(200000);
+
     printf("Taihen:\n");
-    printf("Press CROSS to backup your tai folder and its config.\n");
-    printf("Press CIRLCLE to go back to the main menu");
+    printf("Press CROSS to backup your tai config.\n");
+    printf("Press CIRLCLE to go back to the main menu\n");
+    int configUr0 = 0;
+    int configUx0 = 0;
     while (1)
     {
-        switch(get_key(0))
+        switch (get_key(0))
         {
-            case SCE_CTRL_CROSS:
-                break;
-            case SCE_CTRL_CIRCLE:
-                main();
-                break;
-            default:
-                printf("Wrong input");
-                taiHenPage();
-                break;
+        case SCE_CTRL_CROSS:
+            configUr0 = copyFile("ur0:/tai/config.txt", "ur0:/tai/config_ur0_backup.txt");
+            configUx0 = copyFile("ux0:/tai/config.txt", "ux0:/tai/config_ux0_backup.txt");
+            if (configUx0 == 1 && configUr0 == 1)
+                printf("your taihen configs in both ur0 and ux0 have been backed up.\n");
+            else if (configUx0 == 1 && configUr0 == -1)
+                printf("Couldn't find a config in ur0, but the one located in ux0 has been backed up.\n");
+            else if (configUx0 == -1 && configUr0 == 1)
+                printf("Couldn't find a config in ux0, but the one located in ur0 has been backed up.\n");
+            else
+                printf("Failed to backup your configs\n");
+
+            sceKernelDelayThread(5000000);
+            taiHenPage();
+            break;
+        case SCE_CTRL_CIRCLE:
+            main();
+            break;
+        default:
+            printf("Wrong input\n");
+            sceKernelDelayThread(300000);
+            taiHenPage();
+            break;
         }
     }
-    
-
 }
 
 void powerPage()
@@ -170,6 +231,8 @@ void powerPage()
             scePowerRequestColdReset();
             break;
         default:
+            printf("Invalid input\n");
+            sceKernelDelayThread(300000);
             break;
         }
     }
@@ -182,6 +245,7 @@ int main()
     printf("Vita Manager by inthecatsdreams\n");
     printf("LEFT TRIGGER: Manage volume\n");
     printf("RIGHT TRIGGER: Manage database\n");
+    printf("CIRCLE: taihen page\n");
     printf("TRIANGLE: Power page\n");
     sceKernelDelayThread(100000);
     while (1)
@@ -197,7 +261,13 @@ int main()
         case SCE_CTRL_TRIANGLE:
             powerPage();
             break;
+        case SCE_CTRL_CIRCLE:
+            taiHenPage();
+            break;
         default:
+            printf("Wrong input\n");
+            sceKernelDelayThread(300000);
+            main();
             break;
         }
     }

@@ -37,6 +37,13 @@ target_link_libraries(${PROJECT_NAME}
 	ScePower_stub
 	SceRegistryMgr_stub
 	SceLibc_stub
+  SceThreadmgrForDriver_stub
+	SceSysclibForDriver_stub
+	SceCpuForDriver_stub
+	taihenModuleUtils_stub
+	taihenForKernel_stub
+	SceSysmemForDriver_stub
+	SceIofilemgrForDriver_stub
 )
 
 
