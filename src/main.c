@@ -197,7 +197,7 @@ void taiHenPage()
             break;
         default:
             printf("Wrong input\n");
-            sceKernelDelayThread(300000);
+            sceKernelDelayThread(1000000);
             taiHenPage();
             break;
         }
@@ -232,7 +232,7 @@ void powerPage()
             break;
         default:
             printf("Invalid input\n");
-            sceKernelDelayThread(300000);
+            sceKernelDelayThread(1000000);
             break;
         }
     }
@@ -247,7 +247,7 @@ int main()
     printf("RIGHT TRIGGER: Manage database\n");
     printf("CIRCLE: taihen page\n");
     printf("TRIANGLE: Power page\n");
-    sceKernelDelayThread(100000);
+    sceKernelDelayThread(1000000);
     while (1)
     {
         switch (get_key(0))
@@ -266,7 +266,7 @@ int main()
             break;
         default:
             printf("Wrong input\n");
-            sceKernelDelayThread(300000);
+            sceKernelDelayThread(1000000);
             main();
             break;
         }
