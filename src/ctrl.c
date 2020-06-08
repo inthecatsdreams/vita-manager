@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
-#include <vitasdk.h>
+#include <dolcesdk.h>
 
 #define printf psvDebugScreenPrintf
 

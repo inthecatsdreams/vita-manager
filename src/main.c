@@ -1,11 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
-#include <psp2/kernel/processmgr.h>
-#include <psp2/ctrl.h>
-#include <psp2/io/fcntl.h>
-#include <psp2/io/stat.h>
+#include <dolcesdk.h>
 #include "ctrl.h"
 #include "debugScreen.h"
 #define printf psvDebugScreenPrintf
