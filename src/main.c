@@ -167,6 +167,7 @@ void taiHenPage()
 
     printf("Taihen:\n");
     printf("Press CROSS to backup your tai config.\n");
+    printf("Press TRIANGLE to disable plugins\n");
     printf("Press CIRLCLE to go back to the main menu\n");
     int configUr0 = 0;
     int configUx0 = 0;
@@ -187,10 +188,16 @@ void taiHenPage()
             else
                 printf("Failed to backup your configs\n");
 
-            sceKernelDelayThread(5000000);
+            sceKernelDelayThread(5 * 1000000);
             taiHenPage();
             break;
-
+        case SCE_CTRL_TRIANGLE:
+                sceIoRename("ur0:/tai/", "ur0:/taixd/");
+                sceIoRename("ux0:/tai/", "ux0:/taixd/");
+                printf("Your console will reboot in 5 seconds.");
+                sceKernelDelayThread(5 * 1000000);
+                scePowerRequestColdReset();
+                break;
         case SCE_CTRL_CIRCLE:
             main();
             break;
@@ -243,8 +250,8 @@ int main()
     printf("Vita Manager by inthecatsdreams\n");
     printf("LEFT TRIGGER: Manage volume\n");
     printf("RIGHT TRIGGER: Manage database\n");
-    printf("CIRCLE: taihen page\n");
-    printf("TRIANGLE: Power page\n");
+    printf("CIRCLE: Manage taihen\n");
+    printf("TRIANGLE: Battery stats\n");
     sceKernelDelayThread(1000000);
     while (1)
     {
