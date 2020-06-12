@@ -3,8 +3,7 @@
 #include <stdio.h>
 #include <dolcesdk.h>
 
-#define printf psvDebugScreenPrintf
-
+//credits SilicaAndPina
 int get_key(int type)
 {
 
@@ -15,7 +14,6 @@ int get_key(int type)
 
 		while (1)
 		{
-			//memset(&pad, 0, sizeof(pad));
 			sceCtrlPeekBufferPositive(0, &pad, 1);
 
 			if (pad.buttons != 0)
@@ -50,7 +48,7 @@ void press_exit(void)
 
 	get_key(1);
 
-	printf("Press any key to exit this application.\n");
+	psvDebugScreenPrintf("Press any key to exit this application.\n");
 
 	get_key(0);
 
