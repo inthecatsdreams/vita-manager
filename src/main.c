@@ -123,6 +123,7 @@ void decreaseVolume(int vol)
 void volumePage()
 {
     clearScreen(0);
+    sceKernelDelayThread(200000);
     printf("Volume:\n");
     printf("ARROW UP: increase volume.\n");
     printf("ARROW DOWN: decrease volume.\n");
@@ -167,7 +168,6 @@ void taiHenPage()
     printf("Taihen:\n");
     printf("Press CROSS to backup your tai config.\n");
     printf("Press CIRLCLE to go back to the main menu\n");
-    printf("Press SQUARE to disable all plugins (useful for modoru)\n");
     int configUr0 = 0;
     int configUx0 = 0;
     while (1)
@@ -181,58 +181,14 @@ void taiHenPage()
             if (configUx0 == 1 && configUr0 == 1)
                 printf("your taihen configs in both ur0 and ux0 have been backed up.\n");
             else if (configUx0 == 1 && configUr0 == -1)
-                printf("Couldn't find a config in ur0, but the one located in ux0 has been backed up.\n");
+                printf("Couldn't find a config in ur0\nThe one located in ux0 however, has been backed up.\n");
             else if (configUx0 == -1 && configUr0 == 1)
-                printf("Couldn't find a config in ux0, but the one located in ur0 has been backed up.\n");
+                printf("Couldn't find a config in ux0\nThe one located in ur0 however, has been backed up.\n");
             else
                 printf("Failed to backup your configs\n");
 
             sceKernelDelayThread(5000000);
             taiHenPage();
-            break;
-
-        case SCE_CTRL_SQUARE:
-            configUr0 = copyFile("ur0:/tai/config.txt", "ur0:/tai/config_ur0_backup.txt");
-            configUx0 = copyFile("ux0:/tai/config.txt", "ux0:/tai/config_ux0_backup.txt");
-            if (configUx0 == 1 && configUr0 == 1)
-            {
-                printf("your taihen configs in both ur0 and ux0 have been backed up.\n");
-                sceIoRemove("ur0:/tai/config.txt");
-                sceIoRemove("ux0:/tai/config.txt");
-                printf("The original ones have been deleted (to disable plugins at boot.\n");
-                printf("Your console will reboot in 5 seconds.\n");
-                sceKernelDelayThread(5000000);
-                scePowerRequestColdReset();
-
-            }
-            else if (configUx0 == 1 && configUr0 == -1)
-            {
-
-                printf("Couldn't find a config in ur0, but the one located in ux0 has been backed up.\n");
-                sceIoRemove("ux0:/tai/config.txt");
-                printf("The original one has been deleted (to disable plugins at boot.\n");
-                printf("Your console will reboot in 5 seconds.\n");
-                sceKernelDelayThread(5000000);
-                scePowerRequestColdReset();
-
-            }
-            else if (configUx0 == -1 && configUr0 == 1)
-            {
-
-                printf("Couldn't find a config in ux0, but the one located in ur0 has been backed up.\n");
-                sceIoRemove("ur0:/tai/config.txt");
-                printf("The original one has been deleted (to disable plugins at boot.\n");
-                printf("Your console will reboot in 5 seconds.\n");
-                sceKernelDelayThread(5000000);
-                scePowerRequestColdReset();
-
-                
-            }
-            else
-            {
-                printf("Failed to find your config files.\n");
-                taiHenPage();
-            }
             break;
 
         case SCE_CTRL_CIRCLE:
@@ -251,7 +207,6 @@ void powerPage()
 {
     sceKernelDelayThread(200000);
     int batteryLifeTime = 0;
-    //credits to the vitasdk samples for this one.
     clearScreen(0);
     printf("Power:\n");
     printf("CIRCLE: go back to the main menu.\n");
