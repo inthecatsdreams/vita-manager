@@ -238,6 +238,7 @@ void powerPage()
         default:
             printf("Invalid input\n");
             sceKernelDelayThread(1000000);
+            powerPage();
             break;
         }
     }
