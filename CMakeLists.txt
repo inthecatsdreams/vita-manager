@@ -14,7 +14,7 @@ include("${DOLCESDK}/share/dolce.cmake" REQUIRED)
 
 set(VITA_APP_NAME "Vita Manager")
 set(VITA_TITLEID  "VSDK00014")
-set(VITA_VERSION  "01.00")
+set(VITA_VERSION  "02.01")
 
 
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=gnu11")
@@ -40,8 +40,6 @@ target_link_libraries(${PROJECT_NAME}
   	SceThreadmgrForDriver_stub
 	SceSysclibForDriver_stub
 	SceCpuForDriver_stub
-	taihenModuleUtils_stub
-	taihenForKernel_stub
 	SceSysmemForDriver_stub
 	SceIofilemgrForDriver_stub
 )
@@ -51,4 +49,8 @@ dolce_create_self(${PROJECT_NAME}.self ${PROJECT_NAME} UNSAFE)
 dolce_create_vpk(${PROJECT_NAME}.vpk ${VITA_TITLEID} ${PROJECT_NAME}.self
   VERSION ${VITA_VERSION}
   NAME ${VITA_APP_NAME}
+  FILE sce_sys/icon0.png sce_sys/icon0.png
+  FILE sce_sys/pic0.png sce_sys/pic0.png
+  FILE sce_sys/livearea/contents/startup.png sce_sys/livearea/contents/startup.png
+  FILE sce_sys/livearea/contents/template.xml sce_sys/livearea/contents/template.xml
 )
