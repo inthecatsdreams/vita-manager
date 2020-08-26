@@ -248,7 +248,7 @@ int main()
 {
     psvDebugScreenInit();
     clearScreen(0);
-    printf("Vita Manager by Yowai-dev\n");
+    printf("Vita Manager by inthecatsdreams\n");
     printf("LEFT TRIGGER: Manage volume\n");
     printf("RIGHT TRIGGER: Manage database\n");
     printf("CIRCLE: Manage taihen\n");
