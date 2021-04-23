@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
-#include <dolcesdk.h>
+#include <vitasdk.h>
 
 //credits SilicaAndPina
 int get_key(int type)
